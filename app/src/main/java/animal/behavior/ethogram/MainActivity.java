@@ -1,5 +1,6 @@
 package animal.behavior.ethogram;
 
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Vector;
 
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 
@@ -49,6 +51,16 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+
+    static Vector<String> start_list = new Vector<String>();
+    static Vector<String> stop_list = new Vector<String>();
+    static Vector<String> elapsed_list = new Vector<String>();
+
+    boolean start = false;
+    boolean start_stop = false;
+
+    long startTimeinUnix = 0;
+    long stopTimeinUnix = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,11 +124,76 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
+        Context context = getApplicationContext();
+
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_start) {
+            if (start == false) {
+                start = true;
+
+                startTimeinUnix = System.currentTimeMillis() / 1000L;
+
+
+
+                Toast.makeText(context, "Started recording", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
+
+        if (id == R.id.action_stop) {
+            if (start == true) {
+                start = false;
+
+                stopTimeinUnix = System.currentTimeMillis() / 1000L;
+
+                start_list.add(unixConvertTo24Hours(startTimeinUnix));
+
+                // elapsedTime in seconds
+                int elapsedTime = (int) (stopTimeinUnix - startTimeinUnix);
+
+                /*************************************************************
+                ** write both startTimeinUnix & stopTimeinUnix to database here
+                *************************************************************/
+
+                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_LONG).show();
+            }
+
+            return true;
+        }
+
+        if (id == R.id.action_stop_start) {
+            if (start == true) {
+                start = false;
+
+                stopTimeinUnix = System.currentTimeMillis() / 1000L;
+
+                start_list.add(unixConvertTo24Hours(startTimeinUnix));
+                /*************************************************************
+                 ** write both startTimeinUnix & stopTimeinUnix to database here
+                 *************************************************************/
+
+                startTimeinUnix = System.currentTimeMillis() / 1000L;
+
+            }
+
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private String unixConvertTo24Hours(long unixTime) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(unixTime*1000L);
+
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int min = c.get(Calendar.MINUTE);
+        int sec = c.get(Calendar.SECOND);
+
+        String time = Integer.toString(hour) + ":" + Integer.toString(min) + "   " + Integer.toString(sec) + "s";
+
+        return time;
     }
 
     @Override
@@ -158,7 +235,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
@@ -166,11 +243,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
+                    return getString(R.string.title_tab1).toUpperCase(l);
                 case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return getString(R.string.title_tab2).toUpperCase(l);
             }
             return null;
         }
@@ -219,22 +294,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
 
 
-
-        String[] numbers_text = new String[] { "one", "two", "three", "four",
-                "five", "six", "seven", "eight", "nine", "ten", "eleven",
-                "twelve", "thirteen", "fourteen", "fifteen" };
-        String[] numbers_digits = new String[] { "1", "2", "3", "4", "5", "6", "7",
-                "8", "9", "10", "11", "12", "13", "14", "15" };
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
 
-
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                     inflater.getContext(), android.R.layout.simple_list_item_1,
-                    start_time);
+                    start_list);
             setListAdapter(adapter);
             return super.onCreateView(inflater, container, savedInstanceState);
         }
