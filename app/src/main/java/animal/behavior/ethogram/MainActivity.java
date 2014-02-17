@@ -1,5 +1,6 @@
 package animal.behavior.ethogram;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Vector;
@@ -45,10 +46,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-
-    static Vector<String> start_list = new Vector<String>();
-    static Vector<String> stop_list = new Vector<String>();
-    static Vector<String> elapsed_list = new Vector<String>();
 
     boolean start = false;
     boolean start_stop = false;
@@ -121,16 +118,16 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
         int id = item.getItemId();
         if (id == R.id.action_start) {
-            // yun long
-            ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("add something");
-            ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
+
             if (start == false) {
 
                 start = true;
 
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
 
-
+              
+                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add(unixConvertTo24Hours(startTimeinUnix));
+                ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
 
                 Toast.makeText(context, "Started recording", Toast.LENGTH_SHORT).show();
             }
@@ -143,7 +140,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 stopTimeinUnix = System.currentTimeMillis() / 1000L;
 
-                start_list.add(unixConvertTo24Hours(startTimeinUnix));
 
                 // elapsedTime in seconds
                 int elapsedTime = (int) (stopTimeinUnix - startTimeinUnix);
@@ -160,16 +156,23 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
         if (id == R.id.action_stop_start) {
             if (start == true) {
-                start = false;
 
                 stopTimeinUnix = System.currentTimeMillis() / 1000L;
 
-                start_list.add(unixConvertTo24Hours(startTimeinUnix));
+                // elapsedTime in seconds
+                int elapsedTime = (int) (stopTimeinUnix - startTimeinUnix);
+                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_LONG).show();
+
+
                 /*************************************************************
                  ** write both startTimeinUnix & stopTimeinUnix to database here
                  *************************************************************/
 
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
+
+
+                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add(unixConvertTo24Hours(startTimeinUnix));
+                ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
 
             }
 
@@ -183,11 +186,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(unixTime*1000L);
 
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int min = c.get(Calendar.MINUTE);
-        int sec = c.get(Calendar.SECOND);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
-        String time = Integer.toString(hour) + ":" + Integer.toString(min) + "   " + Integer.toString(sec) + "s";
+        String time = sdf.format(c.getTime());
 
         return time;
     }
