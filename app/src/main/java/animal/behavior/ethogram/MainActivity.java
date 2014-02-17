@@ -62,6 +62,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     long startTimeinUnix = 0;
     long stopTimeinUnix = 0;
 
+    DatabaseHelper db = new DatabaseHelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +157,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                 /*************************************************************
                 ** write both startTimeinUnix & stopTimeinUnix to database here
                 *************************************************************/
+                db.insertEntry(startTimeinUnix, stopTimeinUnix, null);
 
                 Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_LONG).show();
             }
@@ -172,6 +175,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                 /*************************************************************
                  ** write both startTimeinUnix & stopTimeinUnix to database here
                  *************************************************************/
+                db.insertEntry(startTimeinUnix, stopTimeinUnix, null);
 
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
 

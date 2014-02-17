@@ -66,6 +66,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         else
             values.put(this.BEHAVIOR, behavior);
 
+        Log.i("db", "inserting entry " + startTime + " " + endTime + " into db...");
+
         long id = db.insert(TABLE_ENTRIES, null, values);
         db.close();
         return id;
@@ -83,9 +85,33 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public void exportToFile(){
         String csvHeader = "";
-        String csvValues = "";
+        String csvValues = getAllRowsInCSV();
         csvHeader = "\"" + START_TIME + "\"," +  "\"" + END_TIME + "\"," + "\"" + TIME_TAKEN + "\"," + "\"" + BEHAVIOR + "\"\n";
 
+        // write to file
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/ethogramResults");
+        myDir.mkdirs();
+
+        String filename = "csv-"+ System.nanoTime() +".csv";
+        File file = new File (myDir, filename);
+
+        try{
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter out = new BufferedWriter(fileWriter);
+
+            out.write(csvHeader);
+            out.write(csvValues);
+            Log.i("db", "wrote to file: " + filename);
+            out.close();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public String getAllRowsInCSV(){
+        String csvValues = "";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM "+TABLE_ENTRIES, null);
 
@@ -101,28 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
 
         Log.i("db", csvValues);
-
-        // write to file
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/ethogram_results/");
-        myDir.mkdirs();
-
-        String filename = "csv-"+ System.nanoTime() +".csv";
-        File file = new File (myDir, filename);
-
-        try{
-            FileWriter fileWriter = new FileWriter(file);
-            BufferedWriter out = new BufferedWriter(fileWriter);
-
-            out.write(csvHeader);
-            out.write(csvValues);
-            out.close();
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-        }
-
-        db.close();
+        return csvValues;
     }
 
     public void test(){
