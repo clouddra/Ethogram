@@ -28,7 +28,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
-
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleAdapterWrapper;
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleArrayAdapter;
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
 
@@ -247,23 +248,22 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             View layout = inflater.inflate(R.layout.grid_dialog,(ViewGroup) this.getActivity().findViewById(R.id.layout_root));
 
             StickyGridHeadersGridView gridview = (StickyGridHeadersGridView)layout.findViewById(R.id.gridview);
-            String[] numbers_digits = new String[] { "1", "2", "3", "4", "5", "6", "7",
-                    "8", "9", "10", "11", "12", "13", "14", "15" };
 //            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 //                    inflater.getContext(), android.R.layout.simple_list_item_1,
 //                    numbers_digits);
-            gridview.setAdapter(new ArrayAdapter<String>(
-                    inflater.getContext(), R.layout.category,
-                    numbers_digits));
-            gridview.setOnItemClickListener(new OnItemClickListener()
-            {
-                public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
-//                    Toast.makeText(v.getContext(), "Position is "+position, 3000).show();
-                    start_time.add("new item");
-                    ((ArrayAdapter<String>) PlaceholderFragment.this.getListAdapter()).notifyDataSetChanged();
-                    dialog.dismiss();
-                }
-            });
+
+            gridview.setAdapter(new StickyGridHeadersSimpleArrayAdapter<String>(inflater.getContext(),
+                    ((MainApplication)this.getActivity().getApplication()).behaviorCat,  R.layout.header,  R.layout.category));
+
+//            gridview.setOnItemClickListener(new OnItemClickListener()
+//            {
+//                public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
+////                    Toast.makeText(v.getContext(), "Position is "+position, 3000).show();
+//                    start_time.add("new item");
+//                    ((ArrayAdapter<String>) PlaceholderFragment.this.getListAdapter()).notifyDataSetChanged();
+//                    dialog.dismiss();
+//                }
+//            });
 
             builder = new AlertDialog.Builder(mContext);
             builder.setView(layout);
