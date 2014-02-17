@@ -16,7 +16,6 @@ import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,12 +24,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView;
 
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleAdapterWrapper;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleArrayAdapter;
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
@@ -45,7 +40,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
     Vector<String> start_time ;
-    PlaceholderFragment first, second, third;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -107,9 +101,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             start_time.add("old item");
         }
 
-         first = new PlaceholderFragment();
-         second = new PlaceholderFragment();
-         third = new PlaceholderFragment();
+
     }
 
 
@@ -131,7 +123,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
         int id = item.getItemId();
         if (id == R.id.action_start) {
+            // yun long
+            ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("add something");
+            ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
             if (start == false) {
+
                 start = true;
 
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
@@ -231,9 +227,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            if (position==0) return first;
-            else if (position==1) return second;
-            else return third;
+            // yun long
+            if (position==0) return ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment;
+            else return ((MainApplication) MainActivity.this.getApplication()).committedFragment;
         }
 
         @Override
@@ -259,88 +255,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
 
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public class PlaceholderFragment extends ListFragment {
-//        /**
-//         * The fragment argument representing the section number for this
-//         * fragment.
-//         */
 
-        Dialog dialog;
-
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-//        public PlaceholderFragment newInstance(int sectionNumber) {
-//            PlaceholderFragment fragment = new PlaceholderFragment();
-////            Bundle args = new Bundle();
-////            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-////            fragment.setArguments(args);
-//            return fragment;
-//        }
-//
-        public PlaceholderFragment() {
-        }
-//
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                Bundle savedInstanceState) {
-//            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-//            return rootView;
-//        }
-
-
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                    inflater.getContext(), android.R.layout.simple_list_item_1,
-                    start_list);
-            setListAdapter(adapter);
-            return super.onCreateView(inflater, container, savedInstanceState);
-        }
-
-        @Override
-        public void onListItemClick (ListView l, View v, int position, long id){
-
-            AlertDialog.Builder builder;
-            Context mContext = this.getActivity();
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.grid_dialog,(ViewGroup) this.getActivity().findViewById(R.id.layout_root));
-
-            StickyGridHeadersGridView gridview = (StickyGridHeadersGridView)layout.findViewById(R.id.gridview);
-//            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-//                    inflater.getContext(), android.R.layout.simple_list_item_1,
-//                    numbers_digits);
-
-            gridview.setAdapter(new StickyGridHeadersSimpleArrayAdapter<String>(inflater.getContext(),
-                    ((MainApplication)this.getActivity().getApplication()).behaviorCat,  R.layout.header,  R.layout.category));
-
-//            gridview.setOnItemClickListener(new OnItemClickListener()
-//            {
-//                public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
-////                    Toast.makeText(v.getContext(), "Position is "+position, 3000).show();
-//                    start_time.add("new item");
-//                    ((ArrayAdapter<String>) PlaceholderFragment.this.getListAdapter()).notifyDataSetChanged();
-//                    dialog.dismiss();
-//                }
-//            });
-
-            builder = new AlertDialog.Builder(mContext);
-            builder.setView(layout);
-            dialog = builder.create();
-            dialog.show();
-        }
-    }
 
 }
