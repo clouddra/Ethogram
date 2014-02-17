@@ -2,7 +2,7 @@ apply plugin: 'android'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    buildToolsVersion '19.0.1'
 
     defaultConfig {
         minSdkVersion 14
@@ -20,4 +20,6 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v13:+'
+    compile 'com.tonicartos:stickygridheaders:1.0.1@jar'
+    compile 'com.tonicartos:stickygridheaders:1.0.1@jar'
 }
