@@ -1,15 +1,17 @@
 package animal.behavior.ethogram;
 
-import java.util.Deque;
 import java.util.Locale;
 import java.util.Vector;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -20,8 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ArrayAdapter;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView;
+
+import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
@@ -35,6 +41,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
+    Vector<String> start_time ;
+    PlaceholderFragment first, second, third;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -79,6 +87,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        start_time = new Vector<String>();
+        for(int i = 0 ; i<5 ; i++){
+            start_time.add("old item");
+        }
+
+         first = new PlaceholderFragment();
+         second = new PlaceholderFragment();
+         third = new PlaceholderFragment();
     }
 
 
@@ -123,6 +139,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -131,7 +149,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            if (position==0) return first;
+            else if (position==1) return second;
+            else return third;
         }
 
         @Override
@@ -155,27 +175,34 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         }
     }
 
+
+
+
+
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends ListFragment {
+    public class PlaceholderFragment extends ListFragment {
 //        /**
 //         * The fragment argument representing the section number for this
 //         * fragment.
 //         */
+
+        Dialog dialog;
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-//            Bundle args = new Bundle();
-//            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-//            fragment.setArguments(args);
-            return fragment;
-        }
+//        public PlaceholderFragment newInstance(int sectionNumber) {
+//            PlaceholderFragment fragment = new PlaceholderFragment();
+////            Bundle args = new Bundle();
+////            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+////            fragment.setArguments(args);
+//            return fragment;
+//        }
 //
         public PlaceholderFragment() {
         }
@@ -189,7 +216,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 //            return rootView;
 //        }
 
-        Vector<String> start_time = new Vector<String>();
+
 
 
         String[] numbers_text = new String[] { "one", "two", "three", "four",
@@ -202,9 +229,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            for(int i = 0 ; i<5 ; i++){
-                start_time.add("lol");
-            }
 
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -212,6 +236,39 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                     start_time);
             setListAdapter(adapter);
             return super.onCreateView(inflater, container, savedInstanceState);
+        }
+
+        @Override
+        public void onListItemClick (ListView l, View v, int position, long id){
+
+            AlertDialog.Builder builder;
+            Context mContext = this.getActivity();
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.grid_dialog,(ViewGroup) this.getActivity().findViewById(R.id.layout_root));
+
+            StickyGridHeadersGridView gridview = (StickyGridHeadersGridView)layout.findViewById(R.id.gridview);
+            String[] numbers_digits = new String[] { "1", "2", "3", "4", "5", "6", "7",
+                    "8", "9", "10", "11", "12", "13", "14", "15" };
+//            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+//                    inflater.getContext(), android.R.layout.simple_list_item_1,
+//                    numbers_digits);
+            gridview.setAdapter(new ArrayAdapter<String>(
+                    inflater.getContext(), R.layout.category,
+                    numbers_digits));
+            gridview.setOnItemClickListener(new OnItemClickListener()
+            {
+                public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
+//                    Toast.makeText(v.getContext(), "Position is "+position, 3000).show();
+                    start_time.add("new item");
+                    ((ArrayAdapter<String>) PlaceholderFragment.this.getListAdapter()).notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+            });
+
+            builder = new AlertDialog.Builder(mContext);
+            builder.setView(layout);
+            dialog = builder.create();
+            dialog.show();
         }
     }
 
