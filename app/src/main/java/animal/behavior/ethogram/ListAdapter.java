@@ -55,7 +55,7 @@ public class ListAdapter extends BaseAdapter {
 
         holder.time.setText(rowItem.getTime());
         holder.behavior.setText(rowItem.getBehavior());
-        holder.notes.setText(rowItem.toString());
+        holder.notes.setText(rowItem.getNote());
         return convertView;
 
 
