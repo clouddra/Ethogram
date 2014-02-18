@@ -53,4 +53,10 @@ public class Entry {
     public String toString(){
         return id + "," + String.valueOf(startTime) + "," + String.valueOf(endTime) + "," + String.valueOf(timeTaken) + "," + behavior + "\n";
     }
+
+    public Entry(){
+        id = startTime = endTime = timeTaken = 0;
+        behavior = "";
+
+    }
 }

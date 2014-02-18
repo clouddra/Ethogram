@@ -7,18 +7,23 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Vector;
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
 
@@ -42,6 +47,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
     long startTimeinUnix = 0;
     long stopTimeinUnix = 0;
+    CommittedFragment commitFrag;
+    UncommittedFragment uncommitFrag;
 
     DatabaseHelper db = new DatabaseHelper(this);
 
@@ -84,19 +91,15 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                             .setTabListener(this));
         }
 
+
+        commitFrag = new CommittedFragment(db, ((MainApplication) this.getApplication()).behaviorCat, this);
+        uncommitFrag = new UncommittedFragment(db, ((MainApplication) this.getApplication()).behaviorCat, this);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();  // Always call the superclass method first
-
-        displayUncommitted();
-        displayCommitted();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -120,9 +123,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                 invalidateOptionsMenu();
 
                 Toast.makeText(context, "Started recording", Toast.LENGTH_SHORT).show();
-            }
-
-            else if (start == true) {
+            } else if (start == true) {
                 start = false;
 
                 stopTimeinUnix = System.currentTimeMillis() / 1000L;
@@ -134,9 +135,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 invalidateOptionsMenu();
 
-                displayUncommitted();
+//                ((MainApplication) this.getApplicationContext()).displayUncommitted();
+                uncommitFrag.displayUncommitted();
 
-                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds", Toast.LENGTH_SHORT).show();
             }
 
             return true;
@@ -154,9 +156,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 invalidateOptionsMenu();
 
-                displayUncommitted();
+                commitFrag.displayCommitted();
 
-                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds", Toast.LENGTH_SHORT).show();
 
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
 
@@ -188,7 +190,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
     private String unixConvertTo24Hours(long unixTime) {
         Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(unixTime*1000L);
+        c.setTimeInMillis(unixTime * 1000L);
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
@@ -219,7 +221,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 
-
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -229,9 +230,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             // yun long
-            if (position==0) return ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment;
-            else if (position == 1)return ((MainApplication) MainActivity.this.getApplication()).committedFragment;
-            else return null;
+            if (position == 0) {
+                return uncommitFrag;
+            } else if (position == 1) {
+                return commitFrag;
+            } else return null;
         }
 
         @Override
@@ -254,42 +257,4 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     }
 
 
-    private void displayUncommitted() {
-        List<Entry> list = db.getAllUncommitted();
-
-        Iterator<Entry> itr = list.iterator();
-
-        MainApplication.uncommittedItems.clear();
-        MainApplication.id_list_uncommitted.clear();
-
-        while (itr.hasNext()) {
-            Entry entry = itr.next();
-
-            ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("Start: " + unixConvertTo24Hours(entry.getStartTime())
-                    +"   Stop: " + unixConvertTo24Hours(entry.getEndTime()));
-            MainApplication.id_list_uncommitted.add(entry.getId());
-        }
-        if (list.size()>0)
-            ((ArrayAdapter<String>)((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
-    }
-
-    private void displayCommitted() {
-        List<Entry> list = db.getAllCommitted();
-
-        Iterator<Entry> itr = list.iterator();
-
-        MainApplication.committedItems.clear();
-        MainApplication.id_list_committed.clear();
-
-        while (itr.hasNext()) {
-            Entry entry = itr.next();
-
-            ((MainApplication) MainActivity.this.getApplication()).committedItems.add("Start: " + unixConvertTo24Hours(entry.getStartTime())
-                    +"   Stop: " + unixConvertTo24Hours(entry.getEndTime()) + "   Behavior: " + entry.getBehavior());
-            MainApplication.id_list_committed.add(entry.getId());
-        }
-
-        if (list.size()>0)
-            ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).committedFragment.getListAdapter()).notifyDataSetChanged();
-    }
 }
