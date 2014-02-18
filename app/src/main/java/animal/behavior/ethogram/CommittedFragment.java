@@ -97,7 +97,7 @@ public class CommittedFragment extends ListFragment {
    }
 
     @Override
-    public void onListItemClick (ListView l, View v, int position, long id){
+    public void onListItemClick (ListView l, View v, int position, final long listId){
         AlertDialog.Builder builder;
         Context mContext = this.getActivity();
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -117,7 +117,7 @@ public class CommittedFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
                 ListAdapter la = ((ListAdapter)CommittedFragment.this.getListAdapter());
                 // Update DB
-                db.updateBehavior(id,behavior.get(position));
+                db.updateBehavior(listId, behavior.get(position));
 
                 la.setItems(db.getAllCommitted());
                 ((ListAdapter) CommittedFragment.this.getListAdapter()).notifyDataSetChanged();
