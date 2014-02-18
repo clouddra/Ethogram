@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
 
@@ -31,9 +31,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
-    Vector<String> start_time ;
-    public static List<Long> start_list = new Vector<Long>();
-    public static List<Long> stop_list = new Vector<Long>();
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -86,13 +83,16 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-        start_time = new Vector<String>();
-        for(int i = 0 ; i<5 ; i++){
-            start_time.add("old item");
-        }
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        displayUncommitted();
+        displayCommitted();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,40 +112,31 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
         int id = item.getItemId();
         if (id == R.id.action_start) {
-
             if (start == false) {
-
                 start = true;
 
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
 
-                start_list.add(startTimeinUnix);
-
-                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("Start: " + unixConvertTo24Hours(startTimeinUnix));
-                ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
+                invalidateOptionsMenu();
 
                 Toast.makeText(context, "Started recording", Toast.LENGTH_SHORT).show();
             }
-            return true;
-        }
 
-        if (id == R.id.action_stop) {
-            if (start == true) {
+            else if (start == true) {
                 start = false;
 
                 stopTimeinUnix = System.currentTimeMillis() / 1000L;
 
-                stop_list.add(stopTimeinUnix);
-
                 // elapsedTime in seconds
                 int elapsedTime = (int) (stopTimeinUnix - startTimeinUnix);
 
-                /*************************************************************
-                ** write both startTimeinUnix & stopTimeinUnix to database here
-                *************************************************************/
                 db.insertEntry(startTimeinUnix, stopTimeinUnix, null);
 
-                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_LONG).show();
+                invalidateOptionsMenu();
+
+                displayUncommitted();
+
+                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_SHORT).show();
             }
 
             return true;
@@ -156,32 +147,44 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 stopTimeinUnix = System.currentTimeMillis() / 1000L;
 
-                stop_list.add(stopTimeinUnix);
-
                 // elapsedTime in seconds
                 int elapsedTime = (int) (stopTimeinUnix - startTimeinUnix);
-                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_LONG).show();
 
-
-                /*************************************************************
-                 ** write both startTimeinUnix & stopTimeinUnix to database here
-                 *************************************************************/
                 db.insertEntry(startTimeinUnix, stopTimeinUnix, null);
 
+                invalidateOptionsMenu();
+
+                displayUncommitted();
+
+                Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_SHORT).show();
+
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
-
-                start_list.add(startTimeinUnix);
-
-                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("Start: " + unixConvertTo24Hours(startTimeinUnix));
-                ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
 
             }
 
             return true;
         }
 
+        if (id == R.id.action_export) {
+
+            db.exportToFile();
+
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (start == true)
+            menu.getItem(0).setTitle("Stop");
+        else
+            menu.getItem(0).setTitle("Start");
+
+        return true;
+    }
+
 
     private String unixConvertTo24Hours(long unixTime) {
         Calendar c = Calendar.getInstance();
@@ -227,12 +230,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             // Return a PlaceholderFragment (defined as a static inner class below).
             // yun long
             if (position==0) return ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment;
-            else return ((MainApplication) MainActivity.this.getApplication()).committedFragment;
+            else if (position == 1)return ((MainApplication) MainActivity.this.getApplication()).committedFragment;
+            else return null;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 2 total pages.
             return 2;
         }
 
@@ -250,9 +254,42 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     }
 
 
+    private void displayUncommitted() {
+        List<Entry> list = db.getAllUncommitted();
 
+        Iterator<Entry> itr = list.iterator();
 
+        MainApplication.uncommittedItems.clear();
+        MainApplication.id_list_uncommitted.clear();
 
+        while (itr.hasNext()) {
+            Entry entry = itr.next();
 
+            ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("Start: " + unixConvertTo24Hours(entry.getStartTime())
+                    +"   Stop: " + unixConvertTo24Hours(entry.getEndTime()));
+            MainApplication.id_list_uncommitted.add(entry.getId());
+        }
+        if (list.size()>0)
+            ((ArrayAdapter<String>)((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
+    }
 
+    private void displayCommitted() {
+        List<Entry> list = db.getAllCommitted();
+
+        Iterator<Entry> itr = list.iterator();
+
+        MainApplication.committedItems.clear();
+        MainApplication.id_list_committed.clear();
+
+        while (itr.hasNext()) {
+            Entry entry = itr.next();
+
+            ((MainApplication) MainActivity.this.getApplication()).committedItems.add("Start: " + unixConvertTo24Hours(entry.getStartTime())
+                    +"   Stop: " + unixConvertTo24Hours(entry.getEndTime()) + "   Behavior: " + entry.getBehavior());
+            MainApplication.id_list_committed.add(entry.getId());
+        }
+
+        if (list.size()>0)
+            ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).committedFragment.getListAdapter()).notifyDataSetChanged();
+    }
 }

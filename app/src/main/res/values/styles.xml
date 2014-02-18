@@ -2,7 +2,14 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo">
-        <!-- Customize your theme here. -->
+        <item name="android:actionButtonStyle">@style/MyActionButtonStyle</item>
     </style>
+
+    <style name="MyActionButtonStyle" parent="AppTheme">
+        <!--<item name="android:minWidth">40dip</item>-->
+        <item name="android:paddingRight">15dip</item>
+        <item name="android:paddingLeft">15dip</item>
+    </style>
+
 
 </resources>
