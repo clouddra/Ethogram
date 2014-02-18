@@ -35,8 +35,8 @@ public class MainApplication extends Application
     public static PlaceholderFragment uncommittedFragment;
     public static PlaceholderFragment committedFragment;
 
-//    DatabaseHelper db = new DatabaseHelper(this);
-    DatabaseHelper db = new DatabaseHelper(this.getApplicationContext());
+    DatabaseHelper db = new DatabaseHelper(this);
+//    DatabaseHelper db = new DatabaseHelper(this.getApplicationContext());
 
 
     @Override
