@@ -30,8 +30,12 @@ public class MainApplication extends Application
 {
     public static List<String> behaviorCat;
     public static List<String> uncommittedItems;
+    public static List<String> chosenBehavior;
     public static PlaceholderFragment uncommittedFragment;
     public static PlaceholderFragment committedFragment;
+
+    DatabaseHelper db = new DatabaseHelper(this.getApplicationContext());
+
     @Override
     public void onCreate()
     {
@@ -42,6 +46,7 @@ public class MainApplication extends Application
 
         // yun long
         uncommittedItems = new Vector<String>();
+        chosenBehavior = new Vector<String>();
         uncommittedFragment = new PlaceholderFragment();
         committedFragment = new PlaceholderFragment();
         //Find the directory for the SD Card using the API
@@ -67,9 +72,6 @@ public class MainApplication extends Application
                     //You'll need to add proper error handling here
 
                 }
-
-
-
 
     }
 
@@ -125,34 +127,94 @@ public class MainApplication extends Application
 
         @Override
         public void onListItemClick (ListView l, View v, int position, long id){
+            if (MainActivity.start == false) {
+                AlertDialog.Builder builder;
+                Context mContext = this.getActivity();
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.grid_dialog,(ViewGroup) this.getActivity().findViewById(R.id.layout_root));
 
-            AlertDialog.Builder builder;
-            Context mContext = this.getActivity();
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.grid_dialog,(ViewGroup) this.getActivity().findViewById(R.id.layout_root));
+                final int list_position = position;
 
-            StickyGridHeadersGridView gridview = (StickyGridHeadersGridView)layout.findViewById(R.id.gridview);
-//                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-//                    inflater.getContext(), android.R.layout.simple_list_item_1,
-//                    numbers_digits);
+                StickyGridHeadersGridView gridview = (StickyGridHeadersGridView)layout.findViewById(R.id.gridview);
+    //                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+    //                    inflater.getContext(), android.R.layout.simple_list_item_1,
+    //                    numbers_digits);
 
-            gridview.setAdapter(new StickyGridHeadersSimpleArrayAdapter<String>(inflater.getContext(),
-                    ((MainApplication)this.getActivity().getApplication()).behaviorCat,  R.layout.header,  R.layout.category));
+                gridview.setAdapter(new StickyGridHeadersSimpleArrayAdapter<String>(inflater.getContext(),
+                        ((MainApplication)this.getActivity().getApplication()).behaviorCat,  R.layout.header,  R.layout.category));
 
-            gridview.setOnItemClickListener(new OnItemClickListener()
-            {
-                public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
-//                    Toast.makeText(v.getContext(), "Position is "+position, 3000).show();
-                    uncommittedItems.add("new item added from grid");
-                    ((ArrayAdapter<String>) PlaceholderFragment.this.getListAdapter()).notifyDataSetChanged();
-                    dialog.dismiss();
+                gridview.setOnItemClickListener(new OnItemClickListener()
+                {
+                    public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
+                        //Toast.makeText(v.getContext(), "Position is " + position, 3000).show();
+
+                        //uncommittedItems.add("new item added from grid");
+                        chosenBehavior.add(list_position,behaviorCat.get(position));
+
+                        // Insert into DB
+                        db.insertEntry(MainActivity.start_list.get(list_position), MainActivity.stop_list.get(list_position), behaviorCat.get(position));
+
+                        // Remove entry in vectors
+                        MainActivity.start_list.remove(list_position);
+                        MainActivity.stop_list.remove(list_position);
+                        chosenBehavior.remove(list_position);
+                        uncommittedItems.remove(list_position);
+
+
+                        ((ArrayAdapter<String>) PlaceholderFragment.this.getListAdapter()).notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+
+                builder = new AlertDialog.Builder(mContext);
+                builder.setView(layout);
+                dialog = builder.create();
+                dialog.show();
+
+            }
+            else {
+                // If the "stop" button is not pressed, only allow to select for previous sessions
+                if (position < MainActivity.start_list.size()-1) {
+                    AlertDialog.Builder builder;
+                    Context mContext = this.getActivity();
+                    LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+                    View layout = inflater.inflate(R.layout.grid_dialog,(ViewGroup) this.getActivity().findViewById(R.id.layout_root));
+
+                    final int list_position = position;
+
+                    StickyGridHeadersGridView gridview = (StickyGridHeadersGridView)layout.findViewById(R.id.gridview);
+
+                    gridview.setAdapter(new StickyGridHeadersSimpleArrayAdapter<String>(inflater.getContext(),
+                            ((MainApplication)this.getActivity().getApplication()).behaviorCat,  R.layout.header,  R.layout.category));
+
+                    gridview.setOnItemClickListener(new OnItemClickListener()
+                    {
+                        public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
+                            //Toast.makeText(v.getContext(), "Position is " + position, 3000).show();
+
+                            //uncommittedItems.add("new item added from grid");
+                            chosenBehavior.add(list_position,behaviorCat.get(position));
+
+                            // Insert into DB
+                            db.insertEntry(MainActivity.start_list.get(list_position), MainActivity.stop_list.get(list_position), behaviorCat.get(position));
+
+                            // Remove entry in vectors
+                            MainActivity.start_list.remove(list_position);
+                            MainActivity.stop_list.remove(list_position);
+                            chosenBehavior.remove(list_position);
+                            uncommittedItems.remove(list_position);
+
+                            ((ArrayAdapter<String>) PlaceholderFragment.this.getListAdapter()).notifyDataSetChanged();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builder = new AlertDialog.Builder(mContext);
+                    builder.setView(layout);
+                    dialog = builder.create();
+                    dialog.show();
                 }
-            });
-
-            builder = new AlertDialog.Builder(mContext);
-            builder.setView(layout);
-            dialog = builder.create();
-            dialog.show();
+            }
         }
     }
 }
