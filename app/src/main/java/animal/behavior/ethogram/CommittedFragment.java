@@ -129,7 +129,7 @@ public class CommittedFragment extends ListFragment {
 
 
 
-    public void displayCommitted() {
+    public void update() {
         List<Entry> commmitted = db.getAllCommitted();
 //        uncommittedItems.add(new Entry());
         if (commmitted==null)

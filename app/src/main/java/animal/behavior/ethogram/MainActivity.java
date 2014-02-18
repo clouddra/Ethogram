@@ -7,7 +7,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -15,16 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
 
@@ -136,8 +128,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 invalidateOptionsMenu();
 
-//                ((MainApplication) this.getApplicationContext()).displayUncommitted();
-                uncommitFrag.displayUncommitted();
+//                ((MainApplication) this.getApplicationContext()).update();
+                uncommitFrag.update();
 
                 Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds", Toast.LENGTH_SHORT).show();
             }
@@ -157,8 +149,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 invalidateOptionsMenu();
 
-//                commitFrag.displayCommitted();
-                uncommitFrag.displayUncommitted();
+//                commitFrag.update();
+                uncommitFrag.update();
 
                 Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds", Toast.LENGTH_SHORT).show();
 
@@ -209,13 +201,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         Log.i("main", String.valueOf(tab.getPosition()));
         if(tab.getPosition() == 0) { // 0 is uncommitFrag
             if(uncommitFrag != null){
-                uncommitFrag.displayUncommitted();
+                uncommitFrag.update();
                 ((ListAdapter) uncommitFrag.getListAdapter()).notifyDataSetChanged();
             }
         }
         else {
             if(commitFrag != null){
-                commitFrag.displayCommitted();
+                commitFrag.update();
                 ((ListAdapter) commitFrag.getListAdapter()).notifyDataSetChanged();
             }
         }
