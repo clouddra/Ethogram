@@ -166,6 +166,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             db.exportToFile();
             db.deleteAllRows();
 
+            commitFrag.update();
+            ((ListAdapter) commitFrag.getListAdapter()).notifyDataSetChanged();
+
             return true;
         }
 
