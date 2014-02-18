@@ -132,7 +132,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                 // elapsedTime in seconds
                 int elapsedTime = (int) (stopTimeinUnix - startTimeinUnix);
 
-                db.insertEntry(startTimeinUnix, stopTimeinUnix, null);
+                db.insertEntry(startTimeinUnix, stopTimeinUnix, null, null);
 
                 invalidateOptionsMenu();
 
@@ -153,7 +153,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                 // elapsedTime in seconds
                 int elapsedTime = (int) (stopTimeinUnix - startTimeinUnix);
 
-                db.insertEntry(startTimeinUnix, stopTimeinUnix, null);
+                db.insertEntry(startTimeinUnix, stopTimeinUnix, null, null);
 
                 invalidateOptionsMenu();
 
