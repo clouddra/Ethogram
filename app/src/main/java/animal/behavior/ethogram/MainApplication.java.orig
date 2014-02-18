@@ -74,8 +74,14 @@ public class MainApplication extends Application
 
                 }
 
+<<<<<<< HEAD
+=======
 
         Collections.sort(behaviorCat);
+
+
+
+>>>>>>> db8b5f9eff639a9b1bb4e5f8871f194b5d958002
     }
 
 
