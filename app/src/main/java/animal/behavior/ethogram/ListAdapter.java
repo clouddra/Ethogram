@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Vector;
 
 /**
  * Created by Convergence on 18/2/14.
@@ -25,8 +24,9 @@ public class ListAdapter extends BaseAdapter {
 
     /*private view holder class*/
     private class ViewHolder {
-        TextView txtTitle;
-        TextView txtDesc;
+        TextView time;
+        TextView behavior;
+        TextView notes;
     }
 
     @Override
@@ -37,10 +37,13 @@ public class ListAdapter extends BaseAdapter {
         LayoutInflater mInflater = (LayoutInflater)
                 context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            convertView = mInflater.inflate(android.R.layout.simple_list_item_1, null);
+            convertView = mInflater.inflate(R.layout.list_item, null);
             holder = new ViewHolder();
-//                holder.txtDesc = (TextView) convertView.findViewById(android.R.id.text2);
-            holder.txtTitle = (TextView) convertView.findViewById(android.R.id.text1);
+
+            holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.behavior = (TextView) convertView.findViewById(R.id.behavior);
+            holder.notes = (TextView) convertView.findViewById(R.id.notes);
+
             convertView.setTag(holder);
         }
         else {
@@ -49,9 +52,10 @@ public class ListAdapter extends BaseAdapter {
 
         Entry rowItem = (Entry) getItem(position);
 
-//            holder.txtDesc.setText(rowItem.toString());
-        holder.txtTitle.setText(rowItem.toString());
 
+        holder.time.setText(rowItem.getTime());
+        holder.behavior.setText(rowItem.getBehavior());
+        holder.notes.setText(rowItem.toString());
         return convertView;
 
 

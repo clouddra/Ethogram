@@ -1,5 +1,8 @@
 package animal.behavior.ethogram;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by pohchiat on 18/2/14.
  */
@@ -54,9 +57,35 @@ public class Entry {
         return id + "," + String.valueOf(startTime) + "," + String.valueOf(endTime) + "," + String.valueOf(timeTaken) + "," + behavior + "\n";
     }
 
+    public String getTime(){
+        return unixToDate(startTime) + " " + unixConvertTo12Hours(startTime) + "-" + unixConvertTo12Hours(endTime) + " (" + String.valueOf(timeTaken) + "s)";
+    }
+
     public Entry(){
         id = startTime = endTime = timeTaken = 0;
         behavior = "";
 
+    }
+
+    private String unixConvertTo12Hours(long unixTime) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(unixTime*1000L);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("h:mm:ss a");
+
+        String time = sdf.format(c.getTime());
+
+        return time;
+    }
+
+    private String unixToDate(long unixTime){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(unixTime*1000L);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM");
+
+        String date = sdf.format(c.getTime());
+
+        return date;
     }
 }

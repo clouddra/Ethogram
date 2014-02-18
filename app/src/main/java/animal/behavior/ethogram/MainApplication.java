@@ -91,14 +91,5 @@ public class MainApplication extends Application
 
 
 
-    private String unixConvertTo24Hours(long unixTime) {
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(unixTime*1000L);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
-        String time = sdf.format(c.getTime());
-
-        return time;
-    }
 }

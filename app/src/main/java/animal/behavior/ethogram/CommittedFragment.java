@@ -4,12 +4,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
@@ -41,14 +44,50 @@ public class CommittedFragment extends ListFragment {
         System.out.println("create view");
         ListAdapter adapter = new ListAdapter(inflater.getContext(), db.getAllCommitted());
         setListAdapter(adapter);
+
+
+
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-    @Override
-    public void onResume(){
-        super.onResume();
-        System.out.println("resumeing");
-    }
+   @Override
+   public void onActivityCreated(Bundle savedState){
+       super.onActivityCreated(savedState);
 
+
+       getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+
+           @Override
+           public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+               AlertDialog.Builder alert = new AlertDialog.Builder(context);
+
+               alert.setTitle("Comments");
+
+               // Set an EditText view to get user input
+               final EditText input = new EditText(context);
+               input.setLines(3);
+               alert.setView(input);
+
+               alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int whichButton) {
+                       String value = String.valueOf(input.getText());
+                       System.out.println(value);
+                       // Do something with value!
+                   }
+               });
+
+               alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int whichButton) {
+                       // Canceled.
+                   }
+               });
+
+               alert.show();
+               return true;
+           }
+
+       });
+   }
 
     @Override
     public void onListItemClick (ListView l, View v, int position, long id){
@@ -79,11 +118,16 @@ public class CommittedFragment extends ListFragment {
             }
         });
 
+
+
+
         builder = new AlertDialog.Builder(mContext);
         builder.setView(layout);
         dialog = builder.create();
         dialog.show();
     }
+
+
 
     public void displayCommitted() {
         List<Entry> commmitted = db.getAllCommitted();
