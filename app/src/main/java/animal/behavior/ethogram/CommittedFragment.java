@@ -86,7 +86,7 @@ public class CommittedFragment extends ListFragment {
     }
 
     public void displayCommitted() {
-        List<Entry> commmitted = db.getAllUncommitted();
+        List<Entry> commmitted = db.getAllCommitted();
 //        uncommittedItems.add(new Entry());
         if (commmitted==null)
             commmitted = new Vector<Entry>();

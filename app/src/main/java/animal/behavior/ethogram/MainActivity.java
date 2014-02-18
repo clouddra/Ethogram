@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -156,7 +157,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 invalidateOptionsMenu();
 
-                commitFrag.displayCommitted();
+//                commitFrag.displayCommitted();
+                uncommitFrag.displayUncommitted();
 
                 Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds", Toast.LENGTH_SHORT).show();
 
@@ -204,6 +206,19 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
+        Log.i("main", String.valueOf(tab.getPosition()));
+        if(tab.getPosition() == 0) { // 0 is uncommitFrag
+            if(uncommitFrag != null){
+                uncommitFrag.displayUncommitted();
+                ((ListAdapter) uncommitFrag.getListAdapter()).notifyDataSetChanged();
+            }
+        }
+        else {
+            if(commitFrag != null){
+                commitFrag.displayCommitted();
+                ((ListAdapter) commitFrag.getListAdapter()).notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
