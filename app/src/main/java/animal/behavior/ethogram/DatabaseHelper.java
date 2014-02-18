@@ -11,6 +11,8 @@ import android.util.Log;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pohchiat on 2/17/14.
@@ -83,6 +85,56 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close();
     }
 
+    public List<Entry> getAllCommitted(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_ENTRIES + " WHERE " + BEHAVIOR + " NOT NULL", null);
+        List<Entry> list = new ArrayList<Entry>();
+        Log.i("db", "retriving all committed entries...");
+
+        if(c != null){
+            while(c.moveToNext()){
+                Entry entry = new Entry();
+                entry.setId(c.getLong(c.getColumnIndex(ID)));
+                entry.setStartTime(c.getLong(c.getColumnIndex(START_TIME)));
+                entry.setEndTime(c.getLong(c.getColumnIndex(END_TIME)));
+                entry.setTimeTaken(c.getLong(c.getColumnIndex(TIME_TAKEN)));
+                entry.setBehavior(c.getString(c.getColumnIndex(BEHAVIOR)));
+
+                list.add(entry);
+                Log.i("db", entry.toString());
+            }
+        }
+
+        db.close();
+        return list;
+    }
+
+    public List<Entry> getAllUncommitted(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_ENTRIES + " WHERE " + BEHAVIOR + " IS NULL", null);
+        List<Entry> list = new ArrayList<Entry>();
+        Log.i("db", "retriving all uncommitted entries...");
+
+        if(c != null){
+            while(c.moveToNext()){
+                Entry entry = new Entry();
+                entry.setId(c.getLong(c.getColumnIndex(ID)));
+                entry.setStartTime(c.getLong(c.getColumnIndex(START_TIME)));
+                entry.setEndTime(c.getLong(c.getColumnIndex(END_TIME)));
+                entry.setTimeTaken(c.getLong(c.getColumnIndex(TIME_TAKEN)));
+                entry.setBehavior(c.getString(c.getColumnIndex(BEHAVIOR)));
+
+                list.add(entry);
+                Log.i("db", entry.toString());
+            }
+        }
+
+        db.close();
+        return list;
+    }
+
     public void exportToFile(){
         String csvHeader = "";
         String csvValues = getAllRowsInCSV();
@@ -128,25 +180,5 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Log.i("db", csvValues);
         return csvValues;
-    }
-
-    public void test(){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selectQuery = "SELECT  * FROM " + this.TABLE_ENTRIES + " WHERE "
-                + this.START_TIME + " = " + 123;
-
-        Log.d("db", selectQuery);
-
-        Cursor c = db.rawQuery(selectQuery, null);
-
-        if(c != null)
-            c.moveToFirst();
-
-        Log.d("db", String.valueOf(c.getInt(c.getColumnIndex(this.START_TIME))) );
-        Log.d("db", String.valueOf(c.getString(c.getColumnIndex(this.BEHAVIOR))) );
-
-        c.close();
-        db.close();
     }
 }
