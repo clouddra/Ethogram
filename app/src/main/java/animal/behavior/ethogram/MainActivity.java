@@ -128,7 +128,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
 
               
-                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add(unixConvertTo24Hours(startTimeinUnix));
+                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("Start: " + unixConvertTo24Hours(startTimeinUnix));
                 ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
 
                 Toast.makeText(context, "Started recording", Toast.LENGTH_SHORT).show();
@@ -175,7 +175,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
 
 
-                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add(unixConvertTo24Hours(startTimeinUnix));
+                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("Start: " + unixConvertTo24Hours(startTimeinUnix));
                 ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
 
             }
