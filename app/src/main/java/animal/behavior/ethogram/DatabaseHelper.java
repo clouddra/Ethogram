@@ -251,4 +251,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Log.i("db", csvValues);
         return csvValues;
     }
+
+    public void deleteAllRows(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABLE_ENTRIES, "", new String[]{});
+        db.close();
+    }
 }

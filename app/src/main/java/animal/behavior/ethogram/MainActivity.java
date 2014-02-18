@@ -164,6 +164,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         if (id == R.id.action_export) {
 
             db.exportToFile();
+            db.deleteAllRows();
 
             return true;
         }
