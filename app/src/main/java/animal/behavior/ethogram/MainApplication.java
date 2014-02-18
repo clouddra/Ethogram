@@ -35,7 +35,9 @@ public class MainApplication extends Application
     public static PlaceholderFragment uncommittedFragment;
     public static PlaceholderFragment committedFragment;
 
+//    DatabaseHelper db = new DatabaseHelper(this);
     DatabaseHelper db = new DatabaseHelper(this.getApplicationContext());
+
 
     @Override
     public void onCreate()
@@ -200,7 +202,6 @@ public class MainApplication extends Application
 
                             // Insert into DB
                             db.insertEntry(MainActivity.start_list.get(list_position), MainActivity.stop_list.get(list_position), behaviorCat.get(position));
-
                             // Remove entry in vectors
                             MainActivity.start_list.remove(list_position);
                             MainActivity.stop_list.remove(list_position);
