@@ -1,33 +1,24 @@
 package animal.behavior.ethogram;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Vector;
-
-import android.app.Activity;
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Context;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
-import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleArrayAdapter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.Vector;
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
 
@@ -41,14 +32,16 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
     Vector<String> start_time ;
+    public static List<Long> start_list = new Vector<Long>();
+    public static List<Long> stop_list = new Vector<Long>();
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
 
-    boolean start = false;
-    boolean start_stop = false;
+    public static boolean start = false;
+    public static boolean start_stop = false;
 
     long startTimeinUnix = 0;
     long stopTimeinUnix = 0;
@@ -126,8 +119,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
 
-              
-                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add(unixConvertTo24Hours(startTimeinUnix));
+                start_list.add(startTimeinUnix);
+
+                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("Start: " + unixConvertTo24Hours(startTimeinUnix));
                 ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
 
                 Toast.makeText(context, "Started recording", Toast.LENGTH_SHORT).show();
@@ -141,6 +135,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 stopTimeinUnix = System.currentTimeMillis() / 1000L;
 
+                stop_list.add(stopTimeinUnix);
 
                 // elapsedTime in seconds
                 int elapsedTime = (int) (stopTimeinUnix - startTimeinUnix);
@@ -161,6 +156,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 stopTimeinUnix = System.currentTimeMillis() / 1000L;
 
+                stop_list.add(stopTimeinUnix);
+
                 // elapsedTime in seconds
                 int elapsedTime = (int) (stopTimeinUnix - startTimeinUnix);
                 Toast.makeText(context, "Elapsed Time: " + elapsedTime + " seconds" , Toast.LENGTH_LONG).show();
@@ -173,8 +170,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
                 startTimeinUnix = System.currentTimeMillis() / 1000L;
 
+                start_list.add(startTimeinUnix);
 
-                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add(unixConvertTo24Hours(startTimeinUnix));
+                ((MainApplication) MainActivity.this.getApplication()).uncommittedItems.add("Start: " + unixConvertTo24Hours(startTimeinUnix));
                 ((ArrayAdapter<String>) ((MainApplication) MainActivity.this.getApplication()).uncommittedFragment.getListAdapter()).notifyDataSetChanged();
 
             }
