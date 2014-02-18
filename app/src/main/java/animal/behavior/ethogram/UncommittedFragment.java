@@ -98,7 +98,7 @@ public class UncommittedFragment extends ListFragment {
         dialog.show();
     }
 
-    public void displayUncommitted() {
+    public void update() {
         List<Entry> uncommittedItems = db.getAllUncommitted();
 //        uncommittedItems.add(new Entry());
         if (uncommittedItems==null)

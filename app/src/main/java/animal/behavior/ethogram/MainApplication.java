@@ -16,12 +16,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleArrayAdapter;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -82,6 +84,8 @@ public class MainApplication extends Application
     }
 
 
+
+
     // yun long
 
 
@@ -91,14 +95,5 @@ public class MainApplication extends Application
 
 
 
-    private String unixConvertTo24Hours(long unixTime) {
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(unixTime*1000L);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
-        String time = sdf.format(c.getTime());
-
-        return time;
-    }
 }

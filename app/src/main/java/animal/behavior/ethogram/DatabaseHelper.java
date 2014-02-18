@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -33,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String TIME_TAKEN = "time_taken";
     private static final String BEHAVIOR = "behavior";
     private static final String NOTES = "notes";
+    private Context context;
 
     // sqlite code
     private static final String ETHO_ENTRIES_TABLE_CREATE =
@@ -47,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -88,7 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
         values.put(this.BEHAVIOR, behavior);
 
-        db.update(this.TABLE_ENTRIES, values, "id = ?", new String [] {String.valueOf(id)});
+        db.update(this.TABLE_ENTRIES, values, "id = ?", new String[]{String.valueOf(id)});
         db.close();
     }
 
@@ -218,10 +221,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             out.write(csvHeader);
             out.write(csvValues);
             Log.i("db", "wrote to file: " + filename);
+
             out.close();
+            Toast.makeText(context, "Export Success", Toast.LENGTH_SHORT).show();
         }
         catch(Exception ex){
             ex.printStackTrace();
+            Toast.makeText(context, "Export Failed", Toast.LENGTH_SHORT).show();
         }
     }
 
