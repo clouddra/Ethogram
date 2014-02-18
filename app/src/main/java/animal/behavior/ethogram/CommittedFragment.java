@@ -58,7 +58,7 @@ public class CommittedFragment extends ListFragment {
        getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 
            @Override
-           public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+           public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, final long l) {
                AlertDialog.Builder alert = new AlertDialog.Builder(context);
 
                alert.setTitle("Comments");
@@ -72,7 +72,8 @@ public class CommittedFragment extends ListFragment {
                    public void onClick(DialogInterface dialog, int whichButton) {
                        String value = String.valueOf(input.getText());
                        System.out.println(value);
-                       // Do something with value!
+                       ListAdapter la = ((ListAdapter)CommittedFragment.this.getListAdapter());
+                       db.updateNote(l, "lol");
                    }
                });
 
@@ -110,7 +111,7 @@ public class CommittedFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
                 ListAdapter la = ((ListAdapter)CommittedFragment.this.getListAdapter());
                 // Update DB
-                db.updateBehavior(((Entry)la.getItem(list_position)).getId(),behavior.get(position));
+                db.updateBehavior(id,behavior.get(position));
 
                 la.setItems(db.getAllCommitted());
                 ((ListAdapter) CommittedFragment.this.getListAdapter()).notifyDataSetChanged();
