@@ -61,7 +61,7 @@ public class UncommittedFragment extends ListFragment {
     }
 
     @Override
-    public void onListItemClick (ListView l, View v, int position, long id){
+    public void onListItemClick (ListView l, View v, int position, final long listId){
         AlertDialog.Builder builder;
         Context mContext = this.getActivity();
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -83,7 +83,7 @@ public class UncommittedFragment extends ListFragment {
 
                 ListAdapter la = ((ListAdapter)UncommittedFragment.this.getListAdapter());
                 // Update DB
-                db.updateBehavior(((Entry)la.getItem(list_position)).getId(),behavior.get(position));
+                db.updateBehavior(listId,behavior.get(position));
 
                 la.setItems(db.getAllUncommitted());
                 ((ListAdapter) UncommittedFragment.this.getListAdapter()).notifyDataSetChanged();
