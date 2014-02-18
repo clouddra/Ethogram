@@ -20,4 +20,4 @@
           android:padding="10dp"
           android:textColor= "?android:attr/textColorPrimary"
           style="?android:attr/textAppearanceSmall"
-          android:background="@drawable/btn_orange_matte"/>
+          android:background="@drawable/white_border"/>
