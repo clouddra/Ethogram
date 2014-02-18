@@ -117,7 +117,7 @@ public class CommittedFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View v,int position, long id) {
                 ListAdapter la = ((ListAdapter)CommittedFragment.this.getListAdapter());
                 // Update DB
-                db.updateBehavior(((Entry)la.getItem(list_position)).getId(),behavior.get(position));
+                db.updateBehavior(id,behavior.get(position));
 
                 la.setItems(db.getAllCommitted());
                 ((ListAdapter) CommittedFragment.this.getListAdapter()).notifyDataSetChanged();

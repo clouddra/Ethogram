@@ -83,7 +83,8 @@ public class ListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return listItems.indexOf(getItem(position));
+        return ((Entry)getItem(position)).getId();
+//        return listItems.indexOf(getItem(position));
     }
 }
 
