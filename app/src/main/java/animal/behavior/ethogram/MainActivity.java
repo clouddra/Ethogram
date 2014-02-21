@@ -2,10 +2,12 @@ package animal.behavior.ethogram;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -163,11 +165,28 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
         if (id == R.id.action_export) {
 
-            db.exportToFile();
-            db.deleteAllRows();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Confirm Export")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            db.exportToFile();
+                            db.deleteAllRows();
 
-            commitFrag.update();
-            ((ListAdapter) commitFrag.getListAdapter()).notifyDataSetChanged();
+                            commitFrag.update();
+                            ((ListAdapter) commitFrag.getListAdapter()).notifyDataSetChanged();
+
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                            dialog.dismiss();
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
             return true;
         }
