@@ -204,7 +204,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void exportToFile(){
         String csvHeader = "";
         String csvValues = getAllRowsInCSV();
-        csvHeader = "\"" + START_TIME + "\"," +  "\"" + END_TIME + "\"," + "\"" + TIME_TAKEN + "\"," + "\"" + BEHAVIOR + "\"" + NOTES + "\"\n";
+        csvHeader = "\"" + START_TIME + "\"," +  "\"" + END_TIME + "\"," + "\"" + TIME_TAKEN + "\"," + "\"" + BEHAVIOR + "\"," + "\"" + NOTES + "\"\n";
 
         // write to file
         String root = Environment.getExternalStorageDirectory().toString();
@@ -241,7 +241,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 csvValues += String.valueOf(c.getLong(c.getColumnIndex(START_TIME))) + ",";
                 csvValues += String.valueOf(c.getLong(c.getColumnIndex(END_TIME))) + ",";
                 csvValues += String.valueOf(c.getLong(c.getColumnIndex(TIME_TAKEN))) + ",";
-                csvValues += "\"" + String.valueOf(c.getString(c.getColumnIndex(BEHAVIOR))) + "\"";
+                csvValues += "\"" + String.valueOf(c.getString(c.getColumnIndex(BEHAVIOR))) + "\"" + ",";
                 csvValues += "\"" + String.valueOf(c.getString(c.getColumnIndex(NOTES))) + "\"";
                 csvValues += "\n";
             }
