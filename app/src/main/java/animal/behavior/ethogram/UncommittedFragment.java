@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -34,22 +35,35 @@ public class UncommittedFragment extends ListFragment {
 
     DatabaseHelper db;
     List<String> behavior;
-    Context context;
 
-    public UncommittedFragment(DatabaseHelper db, List<String> behavior, Context context) {
-        this.db = db;
-        this.behavior = behavior;
-        this.context = context;
+    public UncommittedFragment(){
+
     }
 
+//    public UncommittedFragment(DatabaseHelper db, List<String> behavior, Context context) {
+////        this.db = db;
+//        this.behavior = behavior;
+//        this.context = context;
+//    }
+
+//    public
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        db = ((MainActivity) this.getActivity()).db;
+        behavior = ((MainApplication) this.getActivity().getApplication()).behaviorCat;
+        update();
+    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+
         System.out.println("create view");
-        ListAdapter adapter = new ListAdapter(inflater.getContext(), db.getAllUncommitted());
+        ListAdapter adapter = new ListAdapter(inflater.getContext(), new ArrayList<Entry>());
         setListAdapter(adapter);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -64,7 +78,7 @@ public class UncommittedFragment extends ListFragment {
     public void onListItemClick (ListView l, View v, int position, final long listId){
         AlertDialog.Builder builder;
         Context mContext = this.getActivity();
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(this.getActivity().LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.grid_dialog,(ViewGroup) this.getActivity().findViewById(R.id.layout_root));
 
         final int list_position = position;
@@ -110,5 +124,11 @@ public class UncommittedFragment extends ListFragment {
 
 
 
+    }
+
+
+    @Override
+    public void onSaveInstanceState (Bundle outState){
+        super.onSaveInstanceState(outState);
     }
 }

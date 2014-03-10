@@ -42,14 +42,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
     long startTimeinUnix = 0;
     long stopTimeinUnix = 0;
-    CommittedFragment commitFrag;
-    UncommittedFragment uncommitFrag;
+    public CommittedFragment commitFrag = null;
+    public UncommittedFragment uncommitFrag = null;
 
-    DatabaseHelper db = new DatabaseHelper(this);
+    public static DatabaseHelper db ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_main);
 
         // Set up the action bar.
@@ -86,9 +89,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                             .setTabListener(this));
         }
 
+//        commitFrag = new CommittedFragment(db, ((MainApplication) this.getApplication()).behaviorCat, this);
+//        uncommitFrag = new UncommittedFragment(db, ((MainApplication) this.getApplication()).behaviorCat, this);
+        db = new DatabaseHelper(this);
+        commitFrag = new CommittedFragment();
+        uncommitFrag = new UncommittedFragment();
 
-        commitFrag = new CommittedFragment(db, ((MainApplication) this.getApplication()).behaviorCat, this);
-        uncommitFrag = new UncommittedFragment(db, ((MainApplication) this.getApplication()).behaviorCat, this);
     }
 
 
@@ -227,11 +233,18 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                 uncommitFrag.update();
                 ((ListAdapter) uncommitFrag.getListAdapter()).notifyDataSetChanged();
             }
+            else{
+                uncommitFrag = new UncommittedFragment();
+            }
+
         }
         else {
             if(commitFrag != null){
                 commitFrag.update();
                 ((ListAdapter) commitFrag.getListAdapter()).notifyDataSetChanged();
+            }
+            else{
+                commitFrag = new CommittedFragment();
             }
         }
     }
@@ -244,6 +257,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        Log.d("activity resume", "main act");
+    }
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -285,6 +304,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             return null;
         }
     }
+//    protected void onSaveInstanceState (Bundle outState){
+//        savedInstanceState
+//    }
 
 
 }

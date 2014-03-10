@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -31,18 +32,28 @@ public class CommittedFragment extends ListFragment {
     List<String> behavior;
     Context context;
 
-    public CommittedFragment(DatabaseHelper db, List<String> behavior, Context context) {
-        this.db = db;
-        this.behavior = behavior;
-        this.context = context;
+//    public CommittedFragment(){}
+
+//    public CommittedFragment(DatabaseHelper db, List<String> behavior, Context context) {
+//        this.db = db;
+//        this.behavior = behavior;
+//        this.context = context;
+//    }
+
+
+
+    public CommittedFragment(){
+
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         System.out.println("create view");
-        ListAdapter adapter = new ListAdapter(inflater.getContext(), db.getAllCommitted());
+        ListAdapter adapter = new ListAdapter(inflater.getContext(), new ArrayList<Entry>());
         setListAdapter(adapter);
 
 
@@ -53,8 +64,10 @@ public class CommittedFragment extends ListFragment {
    @Override
    public void onActivityCreated(Bundle savedState){
        super.onActivityCreated(savedState);
-
-
+       db = ((MainActivity) this.getActivity()).db;
+       behavior = ((MainApplication) this.getActivity().getApplication()).behaviorCat;
+       context = this.getActivity();
+        update();
        getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 
            @Override
@@ -133,6 +146,8 @@ public class CommittedFragment extends ListFragment {
 
 
     public void update() {
+//        db = new DatabaseHelper(context);
+//        db = ((MainActivity) this.getActivity()).db;
         List<Entry> commmitted = db.getAllCommitted();
 //        uncommittedItems.add(new Entry());
         if (commmitted==null)

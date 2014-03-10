@@ -149,6 +149,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public List<Entry> getAllCommitted(){
+
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_ENTRIES + " WHERE "  + BEHAVIOR + " != ''", null);
@@ -169,7 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 Log.i("db", entry.toString());
             }
         }
-
+        c.close();
         db.close();
         return list;
     }
@@ -196,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 Log.i("db", entry.toString());
             }
         }
-
+        c.close();
         db.close();
         return list;
     }
