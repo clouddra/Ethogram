@@ -383,6 +383,12 @@
 				<p> Activities 5 secs before call</p>
 				<p> Activities 5 secs after call</p>
 			</section>
+
+			<section>
+				<h2> Continuous call </h2>
+				<canvas id="continuous" style="float:left;" height="768" width="768"></canvas>
+				<div id="continuousLegend" style="float:right;"></div>
+			</section>
 			
 			
 			<section>
@@ -393,6 +399,49 @@
 
 			</section>
 
+			<section>
+				<h2> Continuous call (partner) </h2>
+				<canvas id="continuous_partner" style="float:left;" height="768" width="768"></canvas>
+				<div id="continuousPartnerLegend" style="float:right;"></div>
+			</section>
+
+			<section>
+				<h2>Rhythmic</h2><br/>
+				<p> Call frequency</p>
+				<p> Average call duration</p>
+				<p> Activities 5 secs before call</p>
+				<p> Activities 5 secs after call</p>
+			</section>
+			
+			<section>
+				<h2> Rhythmic call </h2>
+				<canvas id="rhythmic" style="float:left;" height="768" width="768"></canvas>
+				<div id="rhythmicLegend" style="float:right;"></div>
+			</section>
+
+
+			<section>
+				<h2>Rhythmic</h2><br/>
+				
+				<p> Partner activities 5 secs after call</p>
+				<p> Partner activities 5 secs before call</p>
+			</section>
+
+			<section>
+				<h2> Rhythmic call (partner) </h2>
+				<canvas id="rhythmic_partner" style="float:left;" height="768" width="768"></canvas>
+				<div id="rhythmicPartnerLegend" style="float:right;"></div>
+			</section>
+
+			<section>
+				<h2>Rolling</h2><br/>
+				
+				<p> Call frequency</p>
+				<p> Average call duration</p>
+				<p> Activities 5 secs before call</p>
+				<p> Activities 5 secs after call</p>
+				
+			</section>
 
 			<section>
 				<h2> Rolling call </h2>
@@ -407,85 +456,45 @@
 			</section>
 
 			<section>
-				<h2> Continuous call </h2>
-				<canvas id="continuous" style="float:left;" height="768" width="768"></canvas>
-				<div id="continuousLegend" style="float:right;"></div>
+				<h2>Rolling</h2><br/>
+				
+				<p> Partner activities 5 secs after call</p>
+				<p> Partner activities 5 secs before call</p>
+				
+			</section>
+			
+			<section>
+				<h2> Rolling call (partner)</h2>
+				<canvas id="rolling_partner" style="float:left;" height="768" width="768"></canvas>
+				<div id="rollingPartnerLegend" style="float:right;"></div>
 			</section>
 
 			<section>
-				<h2> Rhythmic call </h2>
-				<canvas id="rhythmic" style="float:left;" height="768" width="768"></canvas>
-				<div id="rhythmicLegend" style="float:right;"></div>
+				<h2>Flight</h2><br/>
+				
+				<p> Call frequency</p>
+				<p> Average call duration</p>
+				<p> Activities 5 secs before call</p>
+				<p> Activities 5 secs after call</p>
 			</section>
 
 			<section>
-				<h2> Rhythmic call (partner) </h2>
-				<canvas id="rhythmic_partner" style="float:left;" height="768" width="768"></canvas>
-				<div id="rhythmicPartnerLegend" style="float:right;"></div>
-			</section>
-
-			<section>
-				<h2> Interaction call </h2>
+				<h2> Flight call </h2>
 				<canvas id="interaction" style="float:left;" height="768" width="768"></canvas>
 				<div id="interactionLegend" style="float:right;"></div>
 			</section>
+			
+			<section>
+				<h2>Flight</h2><br/>
+				
+				<p> Partner activities 5 secs after call</p>
+				<p> Partner activities 5 secs before call</p>
+			</section>
 
 			<section>
-				<h2> Interaction call (partner) </h2>
+				<h2> Flight call (partner) </h2>
 				<canvas id="interaction_partner" style="float:left;" height="768" width="768"></canvas>
 				<div id="interactionPartnerLegend" style="float:right;"></div>
-			</section>
-			
-			<section>
-				<h2>Rhythmic</h2><br/>
-				<p> Call frequency</p>
-				<p> Average call duration</p>
-				<p> Activities 5 secs before call</p>
-				<p> Activities 5 secs after call</p>
-			</section>
-			
-
-			<section>
-				<h2>Rhythmic</h2><br/>
-				
-				<p> Partner activities 5 secs after call</p>
-				<p> Partner activities 5 secs before call</p>
-			</section>
-
-			<section>
-				<h2>Rolling</h2><br/>
-				
-				<p> Call frequency</p>
-				<p> Average call duration</p>
-				<p> Activities 5 secs before call</p>
-				<p> Activities 5 secs after call</p>
-				
-			</section>
-			
-			
-			<section>
-				<h2>Rolling</h2><br/>
-				
-				<p> Partner activities 5 secs after call</p>
-				<p> Partner activities 5 secs before call</p>
-				
-			</section>
-			
-
-			<section>
-				<h2>Flight</h2><br/>
-				
-				<p> Call frequency</p>
-				<p> Average call duration</p>
-				<p> Activities 5 secs before call</p>
-				<p> Activities 5 secs after call</p>
-			</section>
-			
-			<section>
-				<h2>Flight</h2><br/>
-				
-				<p> Partner activities 5 secs after call</p>
-				<p> Partner activities 5 secs before call</p>
 			</section>
 			
 
@@ -827,6 +836,33 @@
 	legend(document.getElementById("rollingLegend"), radarChartData);
 </script>
 
+<!-- chart data for call rolling partner -->
+<script>
+	var radarChartData = {
+	labels : ["Call rolling","Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Flight Solo", "Call continuous"],
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : [6,3,3,2,3,3,8,0],
+			title : 'Before rolling'
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : [6,4,0,3,6,4,13,0],
+			title : 'After rolling'
+		}
+	]
+	}
+	var myRadar = new Chart(document.getElementById("rolling_partner").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("rollingPartnerLegend"), radarChartData);
+</script>
+
 <!-- chart data for flight solo -->
 <script>
 	var radarChartData = {
@@ -879,6 +915,33 @@
 	}
 	var myRadar = new Chart(document.getElementById("continuous").getContext("2d")).Radar(radarChartData);
 	legend(document.getElementById("continuousLegend"), radarChartData);
+</script>
+
+<!-- chart data for call continuous partner -->
+<script>
+	var radarChartData = {
+	labels : ["Call rolling", "Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Flight Solo", "Call continuous"],
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : [0,1,0,0,21,2,2,9],
+			title : 'Before continuous'
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : [0,1,0,0,4,2,5,9],
+			title : 'After continuous'
+		}
+	]
+	}
+	var myRadar = new Chart(document.getElementById("continuous_partner").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("continuousPartnerLegend"), radarChartData);
 </script>
 
 <!-- chart data for call rhythmic -->
