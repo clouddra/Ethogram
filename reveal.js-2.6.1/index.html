@@ -282,7 +282,7 @@
 					<p>Hunting</p><br/>
 					<p>Handling + Processing</p><br/>
 					<p>Continuous Call</p><br/>
-					<p>Rhythmic Call</p><br/>
+					<p>Rhythmic</p><br/>
 					<p>Rolling Call</p><br/>
 					<p>Crackle Call</p><br/>
 				</section>			
@@ -376,56 +376,37 @@
 			<section>
 				<h2>Continuous</h2><br/>
 
-				<p> Call frequency</p>
-				<p> Average call duration</p>
-				<p> Activities 5 secs before call</p>
-				<p> Activities 5 secs after call</p>
+				<p> 12.22 secs </p>
+				<p> 5.25 calls/hr</p>
 			</section>
 
 			<section>
-				<h2> Continuous call </h2>
 				<canvas id="continuous" style="float:left;" height="768" width="768"></canvas>
 				<div id="continuousLegend" style="float:right;"></div>
 			</section>
-			
-			
+
 			<section>
-				<h2>Continuous</h2><br/>
-
-				<p> Partner activities 5 secs after call</p>
-				<p> Partner activities 5 secs before call</p>
-
+				<canvas id="flight_solo" style="float:left;" height="768" width="768"></canvas>
+				<div id="flightSoloLegend" style="float:right;"></div>
 			</section>
 
 			<section>
-				<h2> Continuous call (partner) </h2>
 				<canvas id="continuous_partner" style="float:left;" height="768" width="768"></canvas>
 				<div id="continuousPartnerLegend" style="float:right;"></div>
 			</section>
 
 			<section>
 				<h2>Rhythmic</h2><br/>
-				<p> Call frequency</p>
-				<p> Average call duration</p>
-				<p> Activities 5 secs before call</p>
-				<p> Activities 5 secs after call</p>
+				<p> 32.56 secs </p>
+				<p> 6.75 calls/hr</p>
 			</section>
 			
 			<section>
-				<h2> Rhythmic call </h2>
 				<canvas id="rhythmic" style="float:left;" height="768" width="768"></canvas>
 				<div id="rhythmicLegend" style="float:right;"></div>
 			</section>
 
 			<section>
-				<h2>Rhythmic</h2><br/>
-				
-				<p> Partner activities 5 secs after call</p>
-				<p> Partner activities 5 secs before call</p>
-			</section>
-
-			<section>
-				<h2> Rhythmic call (partner) </h2>
 				<canvas id="rhythmic_partner" style="float:left;" height="768" width="768"></canvas>
 				<div id="rhythmicPartnerLegend" style="float:right;"></div>
 			</section>
@@ -433,63 +414,42 @@
 			<section>
 				<h2>Rolling</h2><br/>
 				
-				<p> Call frequency</p>
-				<p> Average call duration</p>
-				<p> Activities 5 secs before call</p>
-				<p> Activities 5 secs after call</p>
+				<p> 5.038 secs </p>
+				<p>6.58 calls/hr </p>
 				
 			</section>
 
 			<section>
-				<h2> Rolling call </h2>
 				<canvas id="rolling" style="float:left;" height="768" width="768"></canvas>
 				<div id="rollingLegend" style="float:right;"></div>
 			</section>
 
 			<section>
-				<h2> Flight Solo </h2>
-				<canvas id="flight_solo" style="float:left;" height="768" width="768"></canvas>
-				<div id="flightSoloLegend" style="float:right;"></div>
+				<canvas id="flight_solo2" style="float:left;" height="768" width="768"></canvas>
+				<div id="flightSoloLegend2" style="float:right;"></div>
 			</section>
 
-			<section>
-				<h2>Rolling</h2><br/>
-				
-				<p> Partner activities 5 secs after call</p>
-				<p> Partner activities 5 secs before call</p>
-				
-			</section>
 			
 			<section>
-				<h2> Rolling call (partner)</h2>
 				<canvas id="rolling_partner" style="float:left;" height="768" width="768"></canvas>
 				<div id="rollingPartnerLegend" style="float:right;"></div>
 			</section>
 
 			<section>
-				<h2>Flight</h2><br/>
+				<h2>Crackle</h2><br/>
 				
-				<p> Call frequency</p>
-				<p> Average call duration</p>
-				<p> Activities 5 secs before call</p>
-				<p> Activities 5 secs after call</p>
+				<p> 6.375 secs </p>
+				<p>0.67 calls/hr </p>
+				<p> Rare. Only 8 calls observed. </p>
 			</section>
 
 			<section>
-				<h2> Flight call </h2>
 				<canvas id="interaction" style="float:left;" height="768" width="768"></canvas>
 				<div id="interactionLegend" style="float:right;"></div>
 			</section>
 			
-			<section>
-				<h2>Flight</h2><br/>
-				
-				<p> Partner activities 5 secs after call</p>
-				<p> Partner activities 5 secs before call</p>
-			</section>
 
 			<section>
-				<h2> Flight call (partner) </h2>
 				<canvas id="interaction_partner" style="float:left;" height="768" width="768"></canvas>
 				<div id="interactionPartnerLegend" style="float:right;"></div>
 			</section>
@@ -569,7 +529,7 @@
 <!-- chart data for call rolling -->
 <script>
 	var radarChartData = {
-	labels : ["Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Flight Solo", "Call continuous"],
+	labels : ["Pair Flight","Crackle","Handling","Rhythmic","Hunting","Solo Flight", "Continuous"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
@@ -593,10 +553,10 @@
 	legend(document.getElementById("rollingLegend"), radarChartData);
 </script>
 
-<!-- chart data for call rolling partner -->
+<!-- chart data for Rolling partner -->
 <script>
 	var radarChartData = {
-	labels : ["Call rolling","Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Flight Solo", "Call continuous"],
+	labels : ["Rolling","Pair Flight","Crackle","Handling","Rhythmic","Hunting","Solo Flight", "Continuous"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
@@ -604,7 +564,7 @@
 			pointColor : "rgba(220,220,220,1)",
 			pointStrokeColor : "#fff",
 			data : [6,3,3,2,3,3,8,0],
-			title : 'Before rolling'
+			title : 'Before partner rolling'
 		},
 		{
 			fillColor : "rgba(151,187,205,0.5)",
@@ -612,7 +572,7 @@
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
 			data : [6,4,0,3,6,4,13,0],
-			title : 'After rolling'
+			title : 'After partner rolling'
 		}
 	]
 	}
@@ -620,37 +580,76 @@
 	legend(document.getElementById("rollingPartnerLegend"), radarChartData);
 </script>
 
-<!-- chart data for flight solo -->
+<!-- chart data for Solo Flight -->
 <script>
+	// var radarChartData = {
+	// labels : ["Rolling", "Pair Flight","Crackle","Handling","Rhythmic","Hunting","Continuous"],
+	// datasets : [
+	// 	{
+	// 		fillColor : "rgba(220,220,220,0.5)",
+	// 		strokeColor : "rgba(220,220,220,1)",
+	// 		pointColor : "rgba(220,220,220,1)",
+	// 		pointStrokeColor : "#fff",
+	// 		data : [11,0,2,1,6,2,7],
+	// 		title : 'Before Solo Flight'
+	// 	},
+	// 	{
+	// 		fillColor : "rgba(151,187,205,0.5)",
+	// 		strokeColor : "rgba(151,187,205,1)",
+	// 		pointColor : "rgba(151,187,205,1)",
+	// 		pointStrokeColor : "#fff",
+	// 		data : [22,2,1,1,7,4,18],
+	// 		title : 'After Solo Flight'
+	// 	}
+	// 	]
+	// }
+	// var myRadar = new Chart(document.getElementById("flight_solo").getContext("2d")).Radar(radarChartData);
+	// legend(document.getElementById("flightSoloLegend"), radarChartData);
+
+
+
 	var radarChartData = {
-	labels : ["Call rolling", "Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Call continuous"],
+	labels : ["Rolling","Crackle","Rhythmic","Continuous"],
 	datasets : [
+		// {
+		// 	fillColor : "rgba(220,220,220,0.5)",
+		// 	strokeColor : "rgba(220,220,220,1)",
+		// 	pointColor : "rgba(220,220,220,1)",
+		// 	pointStrokeColor : "#fff",
+		// 	data : [11,2,6,7],
+		// 	title : 'Before Solo Flight'
+		// },
+
 		{
 			fillColor : "rgba(220,220,220,0.5)",
 			strokeColor : "rgba(220,220,220,1)",
 			pointColor : "rgba(220,220,220,1)",
 			pointStrokeColor : "#fff",
-			data : [11,0,2,1,6,2,7],
-			title : 'Before flight solo'
+			data : [7, 0, 2, 10],
+			title : 'After Hunting'
 		},
 		{
 			fillColor : "rgba(151,187,205,0.5)",
 			strokeColor : "rgba(151,187,205,1)",
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
-			data : [22,2,1,1,7,4,18],
-			title : 'After flight solo'
+			data : [22,1,7,18],
+			title : 'After Solo Flight'
 		}
 		]
 	}
 	var myRadar = new Chart(document.getElementById("flight_solo").getContext("2d")).Radar(radarChartData);
 	legend(document.getElementById("flightSoloLegend"), radarChartData);
+
+	new Chart(document.getElementById("flight_solo2").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("flightSoloLegend2"), radarChartData);
+
 </script>
 
-<!-- chart data for call continuous -->
+<!-- chart data for Continuous -->
 <script>
 	var radarChartData = {
-	labels : ["Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Flight Solo", "Call rolling"],
+	labels : ["Pair Flight","Crackle","Handling","Rhythmic","Hunting","Solo Flight", "Rolling"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
@@ -674,10 +673,10 @@
 	legend(document.getElementById("continuousLegend"), radarChartData);
 </script>
 
-<!-- chart data for call continuous partner -->
+<!-- chart data for Continuous partner -->
 <script>
 	var radarChartData = {
-	labels : ["Call rolling", "Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Flight Solo", "Call continuous"],
+	labels : ["Rolling", "Pair Flight","Crackle","Handling","Rhythmic","Hunting","Solo Flight", "Continuous"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
@@ -685,7 +684,7 @@
 			pointColor : "rgba(220,220,220,1)",
 			pointStrokeColor : "#fff",
 			data : [0,1,0,0,21,2,2,9],
-			title : 'Before continuous'
+			title : 'Before partner continuous'
 		},
 		{
 			fillColor : "rgba(151,187,205,0.5)",
@@ -693,7 +692,7 @@
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
 			data : [0,1,0,0,4,2,5,9],
-			title : 'After continuous'
+			title : 'After partner continuous'
 		}
 	]
 	}
@@ -701,10 +700,10 @@
 	legend(document.getElementById("continuousPartnerLegend"), radarChartData);
 </script>
 
-<!-- chart data for call rhythmic -->
+<!-- chart data for Rhythmic -->
 <script>
 	var radarChartData = {
-	labels : ["Call Rolling", "Flight Together","Call interaction","Handling","Dive (Hunting)","Flight Solo", "Call Continuous"],
+	labels : ["Rolling", "Pair Flight","Crackle","Handling","Hunting","Solo Flight", "Continuous"],
 	datasets : [
 
 		{
@@ -729,10 +728,10 @@
 	legend(document.getElementById("rhythmicLegend"), radarChartData);
 </script>
 
-<!-- chart data for call rhythmic, parnter-->
+<!-- chart data for Rhythmic, parnter-->
 <script>
 	var radarChartData = {
-	labels : ["Call Rolling", "Flight Together","Call interaction","Handling","Dive (Hunting)","Flight Solo", "Call Continuous"],
+	labels : ["Rolling", "Pair Flight","Crackle","Handling","Hunting","Solo Flight", "Continuous"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
@@ -740,7 +739,7 @@
 			pointColor : "rgba(220,220,220,1)",
 			pointStrokeColor : "#fff",
 			data : [3,1,0,2,3,5,4],
-			title : 'Before rhythmic'
+			title : 'Before partner rhythmic'
 		},
 		{
 			fillColor : "rgba(151,187,205,0.5)",
@@ -748,7 +747,7 @@
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
 			data : [6,0,0,7,12,25,21],
-			title : 'After rhythmic'
+			title : 'After partner rhythmic'
 		}
 	]
 	}
@@ -756,10 +755,10 @@
 	legend(document.getElementById("rhythmicPartnerLegend"), radarChartData);
 </script>
 
-<!-- chart data for call interaction -->
+<!-- chart data for Crackle -->
 <script>
 	var radarChartData = {
-	labels : ["Call Rolling", "Flight Solo","Flight Together","Handling", "Call rhythmic", "Dive (Hunting)", "Call Continuous"],
+	labels : ["Rolling", "Solo Flight","Pair Flight","Handling", "Rhythmic", "Hunting", "Continuous"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
@@ -767,7 +766,7 @@
 			pointColor : "rgba(220,220,220,1)",
 			pointStrokeColor : "#fff",
 			data : [1,1,6,0,0,0,0],
-			title : 'Before interaction'
+			title : 'Before crackle'
 		},
 		{
 			fillColor : "rgba(151,187,205,0.5)",
@@ -775,7 +774,7 @@
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
 			data : [3,2,2,1,0,0,0],
-			title : 'After interaction'
+			title : 'After crackle'
 		}
 	]
 	}
@@ -783,10 +782,10 @@
 	legend(document.getElementById("interactionLegend"), radarChartData);
 </script>
 
-<!-- chart data for call interaction partners -->
+<!-- chart data for Crackle partners -->
 <script>
 	var radarChartData = {
-	labels : ["Call Rolling", "Call Interaction", "Flight Solo","Flight Together","Handling", "Call rhythmic", "Dive (Hunting)", "Call Continuous"],
+	labels : ["Rolling", "Crackle", "Solo Flight","Pair Flight","Handling", "Rhythmic", "Hunting", "Continuous"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
@@ -794,7 +793,7 @@
 			pointColor : "rgba(220,220,220,1)",
 			pointStrokeColor : "#fff",
 			data : [0,5,2,0,0,0,0,0],
-			title : 'Before interaction'
+			title : 'Before partner crackle'
 		},
 		{
 			fillColor : "rgba(151,187,205,0.5)",
@@ -802,7 +801,7 @@
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
 			data : [3,2,3,0,0,0,0,0],
-			title : 'After interaction'
+			title : 'After partner crackle'
 		}
 	]
 	}
