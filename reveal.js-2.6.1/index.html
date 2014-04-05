@@ -394,16 +394,47 @@
 			</section>
 
 
-<section>
+			<section>
+				<h2> Rolling call </h2>
+				<canvas id="rolling" style="float:left;" height="768" width="768"></canvas>
+				<div id="rollingLegend" style="float:right;"></div>
+			</section>
 
-				<canvas id="canvas" style="float:left;" height="768" width="768"></canvas>
+			<section>
+				<h2> Flight Solo </h2>
+				<canvas id="flight_solo" style="float:left;" height="768" width="768"></canvas>
+				<div id="flightSoloLegend" style="float:right;"></div>
+			</section>
 
-					<div id="lineLegend" style="float:right;"></div>
-				
-</section>
-			
+			<section>
+				<h2> Continuous call </h2>
+				<canvas id="continuous" style="float:left;" height="768" width="768"></canvas>
+				<div id="continuousLegend" style="float:right;"></div>
+			</section>
 
+			<section>
+				<h2> Rhythmic call </h2>
+				<canvas id="rhythmic" style="float:left;" height="768" width="768"></canvas>
+				<div id="rhythmicLegend" style="float:right;"></div>
+			</section>
 
+			<section>
+				<h2> Rhythmic call (partner) </h2>
+				<canvas id="rhythmic_partner" style="float:left;" height="768" width="768"></canvas>
+				<div id="rhythmicPartnerLegend" style="float:right;"></div>
+			</section>
+
+			<section>
+				<h2> Interaction call </h2>
+				<canvas id="interaction" style="float:left;" height="768" width="768"></canvas>
+				<div id="interactionLegend" style="float:right;"></div>
+			</section>
+
+			<section>
+				<h2> Interaction call (partner) </h2>
+				<canvas id="interaction_partner" style="float:left;" height="768" width="768"></canvas>
+				<div id="interactionPartnerLegend" style="float:right;"></div>
+			</section>
 			
 			<section>
 				<h2>Rhythmic</h2><br/>
@@ -769,38 +800,194 @@
 <script src="lib/js/head.min.js"></script>
 <script src="js/reveal.min.js"></script>
 
-	<script>
-
+<!-- chart data for call rolling -->
+<script>
 	var radarChartData = {
-	labels : ["Eating","Drinking","Sleeping","Designing","Coding","Partying","Running"],
+	labels : ["Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Flight Solo", "Call continuous"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
 			strokeColor : "rgba(220,220,220,1)",
 			pointColor : "rgba(220,220,220,1)",
 			pointStrokeColor : "#fff",
-			data : [65,59,90,81,56,55,40],
-			title : 'Tigers'
+			data : [5,3,2,5,7,22,3],
+			title : 'Before rolling'
 		},
 		{
 			fillColor : "rgba(151,187,205,0.5)",
 			strokeColor : "rgba(151,187,205,1)",
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
-			data : [28,48,40,19,96,27,100],
-			title : 'Dogs'
+			data : [4,1,4,14,1,11,2],
+			title : 'After rolling'
 		}
 	]
 	}
+	var myRadar = new Chart(document.getElementById("rolling").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("rollingLegend"), radarChartData);
+</script>
 
-	var myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData);
-	legend(document.getElementById("lineLegend"), radarChartData);
+<!-- chart data for flight solo -->
+<script>
+	var radarChartData = {
+	labels : ["Call rolling", "Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Call continuous"],
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : [11,0,2,1,6,2,7],
+			title : 'Before flight solo'
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : [22,2,1,1,7,4,18],
+			title : 'After flight solo'
+		}
+	]
+	}
+	var myRadar = new Chart(document.getElementById("flight_solo").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("flightSoloLegend"), radarChartData);
+</script>
 
+<!-- chart data for call continuous -->
+<script>
+	var radarChartData = {
+	labels : ["Flight Together","Call interaction","Handling","Call rhythmic","Dive (Hunting)","Flight Solo", "Call rolling"],
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : [0,0,0,1,10,18,2],
+			title : 'Before continuous'
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : [0,0,5,1,2,6,3],
+			title : 'After continuous'
+		}
+	]
+	}
+	var myRadar = new Chart(document.getElementById("continuous").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("continuousLegend"), radarChartData);
+</script>
 
+<!-- chart data for call rhythmic -->
+<script>
+	var radarChartData = {
+	labels : ["Call Rolling", "Flight Together","Call interaction","Handling","Dive (Hunting)","Flight Solo", "Call Continuous"],
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : [14,1,1,1,5,7,1],
+			title : 'Before rhythmic'
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : [5,1,0,0,1,6,1],
+			title : 'After rhythmic'
+		}
+	]
+	}
+	var myRadar = new Chart(document.getElementById("rhythmic").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("rhythmicLegend"), radarChartData);
+</script>
 
+<!-- chart data for call rhythmic, parnter-->
+<script>
+	var radarChartData = {
+	labels : ["Call Rolling", "Flight Together","Call interaction","Handling","Dive (Hunting)","Flight Solo", "Call Continuous"],
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : [3,1,0,2,3,5,4],
+			title : 'Before rhythmic'
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : [6,0,0,7,12,25,21],
+			title : 'After rhythmic'
+		}
+	]
+	}
+	var myRadar = new Chart(document.getElementById("rhythmic_partner").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("rhythmicPartnerLegend"), radarChartData);
+</script>
 
+<!-- chart data for call interaction -->
+<script>
+	var radarChartData = {
+	labels : ["Call Rolling", "Flight Solo","Flight Together","Handling", "Call rhythmic", "Dive (Hunting)", "Call Continuous"],
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : [1,1,6,0,0,0,0],
+			title : 'Before interaction'
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : [3,2,2,1,0,0,0],
+			title : 'After interaction'
+		}
+	]
+	}
+	var myRadar = new Chart(document.getElementById("interaction").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("interactionLegend"), radarChartData);
+</script>
 
-	</script>
+<!-- chart data for call interaction partners -->
+<script>
+	var radarChartData = {
+	labels : ["Call Rolling", "Call Interaction", "Flight Solo","Flight Together","Handling", "Call rhythmic", "Dive (Hunting)", "Call Continuous"],
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : [0,5,2,0,0,0,0,0],
+			title : 'Before interaction'
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : [3,2,3,0,0,0,0,0],
+			title : 'After interaction'
+		}
+	]
+	}
+	var myRadar = new Chart(document.getElementById("interaction_partner").getContext("2d")).Radar(radarChartData);
+	legend(document.getElementById("interactionPartnerLegend"), radarChartData);
+</script>
 
 <script>
 
