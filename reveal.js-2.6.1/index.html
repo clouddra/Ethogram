@@ -578,14 +578,14 @@
 <!-- chart data for Rolling partner -->
 <script>
 	var radarChartData = {
-	labels : ["Rolling","Pair Flight","Crackle","Handling","Rhythmic","Hunting","Solo Flight", "Continuous"],
+	labels : [ "Continuous", "Crackle", "Rolling","Pair Flight","Handling","Rhythmic","Hunting","Solo Flight"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
 			strokeColor : "rgba(220,220,220,1)",
 			pointColor : "rgba(220,220,220,1)",
 			pointStrokeColor : "#fff",
-			data : [6,3,3,2,3,3,8,0],
+			data : [0,3,6,3,2,3,3,8],
 			title : 'Before partner rolling'
 		}
 		,
@@ -594,7 +594,7 @@
 			strokeColor : "rgba(151,187,205,1)",
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
-			data : [6,4,0,3,6,4,13,0],
+			data : [0,0,6,4,3,6,4,13],
 			title : 'After partner rolling'
 		}
 	]
@@ -785,7 +785,7 @@
 <!-- chart data for Crackle -->
 <script>
 	var radarChartData = {
-	labels : ["Rolling", "Solo Flight","Pair Flight","Handling", "Rhythmic", "Hunting", "Continuous"],
+	labels : ["Rolling", "Solo Flight","Pair Flight","Handling", "Continuous", "Hunting", "Rhythmic"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
@@ -800,7 +800,7 @@
 			strokeColor : "rgba(151,187,205,1)",
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
-			data : [3,2,2,1,0,0,0],
+			data : [3,2,2,0,0,0,1],
 			title : 'After crackle'
 		}
 	]
@@ -812,14 +812,16 @@
 <!-- chart data for Crackle partners -->
 <script>
 	var radarChartData = {
-	labels : ["Rolling", "Crackle", "Solo Flight","Pair Flight","Handling", "Rhythmic", "Hunting", "Continuous"],
+	labels : ["Rolling", "Solo Flight", "Crackle" ,"Pair Flight","Handling", "Rhythmic", "Hunting", "Continuous"],
 	datasets : [
 		{
 			fillColor : "rgba(220,220,220,0.5)",
 			strokeColor : "rgba(220,220,220,1)",
 			pointColor : "rgba(220,220,220,1)",
 			pointStrokeColor : "#fff",
-			data : [0,5,2,0,0,0,0,0],
+			// Call rolling	Flight Together	Call interaction	Perching	MIA	Handling	Call rhythmic	Dive (Hunting)	Flight Solo	Call continuous
+			// 0	5	2	5	0	0	0	0	0	0
+			data : [0,0,2,5,0,0,0,0],
 			title : 'Before partner crackle'
 		},
 		{
@@ -827,7 +829,9 @@
 			strokeColor : "rgba(151,187,205,1)",
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
-			data : [3,2,3,0,0,0,0,0],
+			// Call rolling	Flight Together	Call interaction	Perching	MIA	Handling	Call rhythmic	Dive (Hunting)	Flight Solo	Call continuous
+			// 3	0	2	4	0	0	0	0	3	0
+			data : [3,3,2,0,0,0,0,0],
 			title : 'After partner crackle'
 		}
 	]
